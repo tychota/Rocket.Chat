@@ -16,8 +16,6 @@ USER meteor
 WORKDIR /source
 
 RUN meteor npm install
-RUN meteor npm run lint
-RUN meteor npm run testunit
 
 RUN meteor build --server-only --directory /tmp/build-test
 
@@ -37,8 +35,6 @@ FROM rocketchat/base:8
 
 COPY --from=meteor /tmp/build /app
 
-MAINTAINER buildmaster@rocket.chat
-
 RUN set -x \
   && cd /app/bundle/programs/server \
   && npm install \
@@ -48,7 +44,6 @@ RUN set -x \
 USER rocketchat
 
 VOLUME /app/uploads
-
 WORKDIR /app/bundle
 
 # needs a mongoinstance - defaults to container linking with alias 'mongo'

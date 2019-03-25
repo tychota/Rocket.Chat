@@ -1,0 +1,14 @@
+steps:
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      [
+        "build",
+        "--build-arg",
+        'TOOL_NODE_FLAGS="--max-old-space-size=2048"',
+        "-t",
+        "gcr.io/dojo-kube/rocketchat:$COMMIT_SHA",
+        ".",
+      ]
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["push", "dojo-kube/rocketchat:$COMMIT_SHA"]
+images: ["gcr.io/dojo-kube/rocketchat:$COMMIT_SHA"]
