@@ -9,6 +9,14 @@ steps:
         "gcr.io/dojo-kube/rocketchat:$COMMIT_SHA",
         ".",
       ]
+    timeout: 2000s
   - name: "gcr.io/cloud-builders/docker"
     args: ["push", "dojo-kube/rocketchat:$COMMIT_SHA"]
+  - name: "gcr.io/cloud-builders/kubectl"
+    args:
+      - "set"
+      - "image"
+      - "replicaset/rocketchat"
+      - "rocketchat-web=rocketchat/rocket.chat:$COMMIT_SHA"
+timeout: 2000s
 images: ["gcr.io/dojo-kube/rocketchat:$COMMIT_SHA"]
